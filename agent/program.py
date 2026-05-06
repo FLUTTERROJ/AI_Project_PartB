@@ -164,6 +164,19 @@ def evaluate(board: Board, color: PlayerColor) -> float:
     return (my_tokens - opp_tokens) * 1.0 + eat_bonus - edge_pen
  
 
+def order_actions(actions: list[Action]) -> list[Action]:
+    def priority(action):
+        if isinstance(action, EatAction):
+            return 0   # try first
+        if isinstance(action, CascadeAction):
+            return 1
+        if isinstance(action, MoveAction):
+            return 2
+        return 3       # PlaceAction
+
+    return sorted(actions, key=priority)
+
+
 def minimax(
     board:      Board,
     depth:      int,
@@ -189,6 +202,7 @@ def minimax(
     if not actions:
         return 0.0, None  # Stalemate — draw
  
+    actions = order_actions(actions)
     best_action: Action | None = None
  
     if maximising:
