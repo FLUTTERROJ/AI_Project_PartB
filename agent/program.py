@@ -167,12 +167,12 @@ def evaluate(board: Board, color: PlayerColor) -> float:
 def order_actions(actions: list[Action]) -> list[Action]:
     def priority(action):
         if isinstance(action, EatAction):
-            return 0   # try first
+            return 0   
         if isinstance(action, CascadeAction):
             return 1
         if isinstance(action, MoveAction):
             return 2
-        return 3       # PlaceAction
+        return 3       
 
     return sorted(actions, key=priority)
 
