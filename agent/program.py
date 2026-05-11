@@ -25,12 +25,8 @@ def get_legal_actions(board: Board, color: PlayerColor) -> list[Action]:
     actions: list[Action] = []
  
     if board.phase == GamePhase.PLACEMENT:
-        for r in range(BOARD_N):
-            for c in range(BOARD_N):
-                coord = Coord(r, c)
-                if board[coord].is_empty:
-                    actions.append(PlaceAction(coord))
-        return actions
+        candidates = _placement_candidates(board, color)
+        return [PlaceAction(coord) for coord in candidates]
  
     # ── Play phase ────────────────────────────────────────────────────────────
     opponent = color.opponent
